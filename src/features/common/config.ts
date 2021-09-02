@@ -4,6 +4,8 @@ export const themeColor = {
   dardSecondary: '#6e946c',
   white: '#FFFFFF',
   light: '#C0CFB2',
+  lightenLight: '#CDD9C2',
   dark: '#364F3C',
-  lightenDark: '#557c5f',
+  lightenDark: '#557C5F',
+  redChiGong: '#FF7979',
 };

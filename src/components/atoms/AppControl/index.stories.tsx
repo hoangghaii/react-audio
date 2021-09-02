@@ -1,15 +1,11 @@
 import { Meta, Story } from '@storybook/react';
-import { AppControl, PropsType } from '.';
+import { AppControl } from '.';
 
 export default {
   title: 'Atoms/AppControl',
   component: AppControl,
 } as Meta;
 
-const Template: Story<PropsType> = (args) => <AppControl {...args} />;
+const Template: Story = (args) => <AppControl {...args} />;
 
 export const normal = Template.bind({});
-normal.args = {
-  isMute: false,
-  isPlay: true,
-};

@@ -1,5 +1,7 @@
+import { AudioPage } from 'src/components/pages/AudioPage';
+
 function App() {
-  return <div>Hello Word</div>;
+  return <AudioPage />;
 }
 
 export default App;

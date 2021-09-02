@@ -6,7 +6,7 @@ export const AppFooter: FC = () => {
     <Styc.Footer>
       made by{' '}
       <Styc.FooterLink href="https://codepen.io/juliepark">
-        juliee
+        julie
       </Styc.FooterLink>{' '}
       ♡
     </Styc.Footer>
