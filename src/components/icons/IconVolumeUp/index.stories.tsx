@@ -1,4 +1,4 @@
-import { IconPropsType } from '@/features/common';
+import { IconPropsType } from 'src/features/common';
 import { Story, Meta } from '@storybook/react';
 import { IconVolumeUp } from '.';
 
