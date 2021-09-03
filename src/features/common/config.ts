@@ -9,3 +9,7 @@ export const themeColor = {
   lightenDark: '#557C5F',
   redChiGong: '#FF7979',
 };
+
+export const queryDedupingInterval = 1000 * 60 * 5; // 5 minutes. avoid re-fetch for 5 minutes
+export const queryRetryCount = 3;
+export const queryRetryInterval = 3000; // 3 secondes

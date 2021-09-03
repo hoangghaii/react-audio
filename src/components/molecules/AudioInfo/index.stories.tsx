@@ -10,6 +10,8 @@ const Template: Story<PropsType> = (args) => <AudioInfo {...args} />;
 
 export const normal = Template.bind({});
 normal.args = {
+  songName: 'sd123ascx',
+  artistName: 'sd123ascx',
   isPlay: true,
   isMute: false,
   onPause: () => {

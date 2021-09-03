@@ -13,3 +13,7 @@ export type StyleVariantType =
   | 'warning'
   | 'attention'
   | 'dark';
+
+export type ErrorHandlerType = (e: Error) => void;
+
+export type ToastType = 'success' | 'info' | 'warn' | 'error';

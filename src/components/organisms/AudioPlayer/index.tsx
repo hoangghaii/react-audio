@@ -1,10 +1,11 @@
 import { FC } from 'react';
 import { AppAlbum } from 'src/components/atoms/AppAlbum';
 import { AudioInfo } from 'src/components/molecules/AudioInfo';
+import { SongType } from 'src/features/songs';
 import { PlayerContainer } from './styles';
 
 export type PropsType = {
-  imgSrc?: string;
+  songInfo: SongType;
   isHeart: boolean;
   isPlay: boolean;
   isMute?: boolean;
@@ -20,7 +21,7 @@ export type PropsType = {
 
 export const AudioPlayer: FC<PropsType> = (props: PropsType) => {
   const {
-    imgSrc,
+    songInfo,
     onHeart,
     isHeart,
     isMute = false,
@@ -36,8 +37,14 @@ export const AudioPlayer: FC<PropsType> = (props: PropsType) => {
 
   return (
     <PlayerContainer>
-      <AppAlbum imgSrc={imgSrc} onHeart={onHeart} isHeart={isHeart} />
+      <AppAlbum
+        imgSrc={songInfo.song_art_image_url}
+        onHeart={onHeart}
+        isHeart={isHeart}
+      />
       <AudioInfo
+        songName={songInfo.full_title}
+        artistName={songInfo.primary_artist.name}
         isMute={isMute}
         isPlay={isPlay}
         onAddAudio={onAddAudio}

@@ -1,10 +1,11 @@
 import { FC } from 'react';
 import { AppFooter } from 'src/components/atoms/AppFooter';
 import { AudioPlayer } from 'src/components/organisms/AudioPlayer';
+import { SongType } from 'src/features/songs';
 import { AudioContainer } from './styles';
 
 export type PropsType = {
-  imgSrc?: string;
+  songInfo: SongType;
   isPlay: boolean;
   isMute?: boolean;
   isHeart: boolean;
@@ -20,7 +21,7 @@ export type PropsType = {
 
 export const AudioPage: FC<PropsType> = (props: PropsType) => {
   const {
-    imgSrc,
+    songInfo,
     isMute = false,
     isPlay = false,
     isHeart = false,
@@ -37,7 +38,7 @@ export const AudioPage: FC<PropsType> = (props: PropsType) => {
   return (
     <AudioContainer>
       <AudioPlayer
-        imgSrc={imgSrc}
+        songInfo={songInfo}
         onHeart={onHeart}
         isHeart={isHeart}
         isMute={isMute}
