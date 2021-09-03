@@ -1,13 +1,9 @@
 import { FC } from 'react';
+import { AppButton } from 'src/components/atoms/AppButton';
 import { IconRandom } from 'src/components/icons/IconRandom';
-import { ButtonShuffle } from './styles';
 
 export type PropsType = {};
 
 export const AppButtonShuffle: FC<PropsType> = (props: PropsType) => {
-  return (
-    <ButtonShuffle>
-      <IconRandom />
-    </ButtonShuffle>
-  );
+  return <AppButton icon={<IconRandom />} />;
 };

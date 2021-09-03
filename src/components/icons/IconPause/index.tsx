@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { IconPropsType } from 'src/features/common';
 
-export const IconPause: FC<IconPropsType> = ({ size = 20 }) => {
+export const IconPause: FC<IconPropsType> = ({ size = 24 }) => {
   return (
     <svg
       width={size}

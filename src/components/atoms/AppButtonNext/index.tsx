@@ -1,6 +1,6 @@
 import { FC } from 'react';
+import { AppButton } from 'src/components/atoms/AppButton';
 import { IconFastForward } from 'src/components/icons/IconFastForward';
-import { ButtonNext } from './styles';
 
 export type PropsType = {
   onNextAudio?: () => void;
@@ -9,9 +9,5 @@ export type PropsType = {
 export const AppButtonNext: FC<PropsType> = (props: PropsType) => {
   const { onNextAudio } = props;
 
-  return (
-    <ButtonNext onClick={onNextAudio}>
-      <IconFastForward />
-    </ButtonNext>
-  );
+  return <AppButton onClick={onNextAudio} icon={<IconFastForward />} />;
 };

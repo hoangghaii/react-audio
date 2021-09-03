@@ -5,17 +5,49 @@ import { PlayerContainer } from './styles';
 
 export type PropsType = {
   imgSrc?: string;
-  onHeart: () => void;
   isHeart: boolean;
+  isPlay: boolean;
+  isMute?: boolean;
+  onHeart: () => void;
+  onPause: () => void;
+  onPlay: () => void;
+  onAddAudio: () => void;
+  onNextAudio?: () => void;
+  onPrevAudio?: () => void;
+  onVolumeOff: () => void;
+  onVolumeUp: () => void;
 };
 
 export const AudioPlayer: FC<PropsType> = (props: PropsType) => {
-  const { imgSrc, onHeart, isHeart } = props;
+  const {
+    imgSrc,
+    onHeart,
+    isHeart,
+    isMute = false,
+    isPlay = false,
+    onAddAudio,
+    onNextAudio,
+    onPrevAudio,
+    onPause,
+    onPlay,
+    onVolumeOff,
+    onVolumeUp,
+  } = props;
 
   return (
     <PlayerContainer>
       <AppAlbum imgSrc={imgSrc} onHeart={onHeart} isHeart={isHeart} />
-      <AudioInfo />
+      <AudioInfo
+        isMute={isMute}
+        isPlay={isPlay}
+        onAddAudio={onAddAudio}
+        onNextAudio={onNextAudio}
+        onPrevAudio={onPrevAudio}
+        onPause={onPause}
+        onPlay={onPlay}
+        onVolumeOff={onVolumeOff}
+        onVolumeUp={onVolumeUp}
+      />
     </PlayerContainer>
   );
 };

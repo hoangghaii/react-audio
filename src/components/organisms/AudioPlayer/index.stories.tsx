@@ -13,7 +13,30 @@ normal.args = {
   imgSrc:
     'http://4.bp.blogspot.com/-pcPjBBdE_K8/U7v4oEX3M8I/AAAAAAAAD2I/6dWyzgiPzkQ/s1600/Clean+BAndit+Album+.jpg',
   isHeart: false,
+  isPlay: true,
+  isMute: false,
   onHeart: () => {
+    //
+  },
+  onPause: () => {
+    //
+  },
+  onPlay: () => {
+    //
+  },
+  onAddAudio: () => {
+    //
+  },
+  onNextAudio: () => {
+    //
+  },
+  onPrevAudio: () => {
+    //
+  },
+  onVolumeOff: () => {
+    //
+  },
+  onVolumeUp: () => {
     //
   },
 };
