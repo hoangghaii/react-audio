@@ -1,28 +1,29 @@
 const controller = require('../controllers/audios.controllers');
+const upload = require('../middleware/upload');
 
 module.exports = function (app) {
-  // @route GET api/posts
-  // @desc Get posts
-  // @access Private
-  // app.get("/api/posts", verifyToken, controller.getPosts);
+  // @route GET api/audios
+  // @desc Get audios
+  // @access Public
+  // app.get("/api/audios", controller.getaudios);
 
-  // @route GET api/posts
-  // @desc Get  detail post
-  // @access Private
-  // app.get("/api/posts/:id", verifyToken, controller.getDetailPost);
+  // @route GET api/audios
+  // @desc Get detail audio
+  // @access Public
+  app.get('/api/audios/:fileName', controller.getDetailAudio);
 
-  // @route POST api/posts
-  // @desc Create post
-  // @access Private
-  app.post('/api/audios', controller.createAudio);
+  // @route POST api/audios
+  // @desc Create audio
+  // @access Public
+  app.post('/api/audios', upload.single('file'), controller.createAudio);
 
-  // @route PUT api/posts/:id
-  // @desc Update post
-  // @access Private
-  // app.put("/api/posts/:id", verifyToken, controller.updatePost);
+  // @route PUT api/audios/:id
+  // @desc Update audio
+  // @access Public
+  // app.put("/api/audios/:id", controller.updatePost);
 
-  // @route DELETE api/posts/:id
-  // @desc Delete post
-  // @access Private
-  // app.delete("/api/posts/:id", verifyToken, controller.deletePost);
+  // @route DELETE api/audios/:id
+  // @desc Delete audio
+  // @access Public
+  app.delete('/api/audios/:fileName', controller.deleteAudio);
 };

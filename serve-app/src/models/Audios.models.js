@@ -6,7 +6,7 @@ const AudioSchema = new Schema({
   artist: { type: String, required: true },
   image_url: { type: String, required: true },
   heart: { type: Boolean, required: true },
-  media: { type: Binary, required: true },
+  // media: { type: Binary, required: true },
 });
 
 module.exports = mongoose.model('audios', AudioSchema);

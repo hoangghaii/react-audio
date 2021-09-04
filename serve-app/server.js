@@ -17,10 +17,9 @@ const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 };
-const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.9zxnv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const connectDB = async () => {
   try {
-    await mongoose.connect(uri, options);
+    await mongoose.connect(process.env.DB, options);
     console.log('MongoDB connected');
   } catch (error) {
     console.log(error.message);
@@ -29,7 +28,7 @@ const connectDB = async () => {
 };
 connectDB();
 
-app.get('/', (req, res) => res.send('Wellcome to MERN-001'));
+app.get('/', (req, res) => res.send('Wellcome to Audio Server'));
 
 // routes
 require('./src/routes/audios.routes')(app);
