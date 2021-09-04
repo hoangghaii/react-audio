@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Questrial');
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100vh;
+  display: grid;
+}
+
+body {
+  display: grid;
+  overflow: hidden;
+  background: linear-gradient(to bottom left, #c0cfb2 10%, #8ba989 80%);
+  font-family: 'Questrial', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
