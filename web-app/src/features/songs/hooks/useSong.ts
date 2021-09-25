@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useCachedAsyncFunction, useToast } from 'src/features/common';
 import { getArtistSongs, getSong } from 'src/services/apis';
-import { SongListType, SongType } from '..';
+import { SongListType, SongType, audios } from '..';
+import { Howl, Howler } from 'howler';
 
 export const useSong = (idArtist: string) => {
   const onShowToast = useToast();
@@ -16,6 +17,21 @@ export const useSong = (idArtist: string) => {
 
   const [currentIdSong, setCurrentIdSong] = useState<number>();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [currentAudioIndex, setCurrentAudioIndex] = useState<number>(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [currentAudioSong, setCurrentAudioSong] = useState(
+    audios[currentAudioIndex].src,
+  );
+
+  const [isPlay, setIsPlay] = useState<boolean>(false);
+  const [isMute, setIsMute] = useState<boolean>(false);
+  const [heart, setHeart] = useState(false);
+
+  // Setup the new Howl.
+  const sound = new Howl({
+    src: currentAudioSong,
+    html5: true,
+  });
 
   useEffect(() => {
     songList && setCurrentIdSong(songList[currentIndex].id);
@@ -32,22 +48,45 @@ export const useSong = (idArtist: string) => {
   const onNextSong = () => {
     if (currentIndex >= songList.length - 1) return;
     setCurrentIndex(currentIndex + 1);
+    if (currentAudioIndex > audios.length) setCurrentAudioIndex(0);
+    setCurrentAudioIndex(currentAudioIndex + 1);
   };
 
   const onPrevSong = () => {
     if (currentIndex === 0) return;
     setCurrentIndex(currentIndex - 1);
+    if (currentAudioIndex === 0) setCurrentAudioIndex(audios.length);
+    setCurrentAudioIndex(currentAudioIndex - 1);
   };
 
-  const onPause = () => {};
+  const onPause = () => {
+    sound.pause();
+    console.log('pause');
+    setIsPlay(false);
+  };
 
-  const onPlay = () => {};
+  const onPlay = () => {
+    sound.play(currentAudioSong);
+    setIsPlay(true);
+  };
 
-  const onVolumeOff = () => {};
+  const onVolumeOff = () => {
+    Howler.volume(0);
+    setIsMute(true);
+  };
 
-  const onVolumeUp = () => {};
+  const onVolumeUp = () => {
+    setIsMute(false);
+  };
+
+  const onHeart = () => {
+    setHeart(!heart);
+  };
 
   return {
+    isPlay,
+    isMute,
+    heart,
     currentSong,
     onNextSong,
     onPrevSong,
@@ -55,5 +94,6 @@ export const useSong = (idArtist: string) => {
     onPlay,
     onVolumeOff,
     onVolumeUp,
+    onHeart,
   };
 };
