@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import ReactPlayer from 'react-player';
 import { AudioPage } from 'src/components/layout/AudioPage';
 import { AudioPlayer } from 'src/components/layout/AudioPlayer';
 import { AppAlbum } from 'src/components/views/AppAlbum';
@@ -23,17 +24,21 @@ export const AudioContainer: FC<PropsType> = (props: PropsType) => {
     isMute,
     heart,
     currentSong,
+    timeCurrent,
+    timeTotal,
+    currentAudioSong,
+    playerRef,
+    seekPlayed,
     onNextSong,
     onPrevSong,
     onPause,
     onPlay,
-    onVolumeOff,
-    onVolumeUp,
+    onControlVolume,
     onHeart,
+    onProgress,
+    onDuration,
+    onEnder,
   } = useSong('29472');
-
-  console.log('isPlay: ', isPlay);
-  console.log('isMute: ', isMute);
 
   const songImage = currentSong?.song_art_image_url ?? '/sound-bars.svg';
   const songName = currentSong?.full_title ?? 'Loading...';
@@ -47,7 +52,13 @@ export const AudioContainer: FC<PropsType> = (props: PropsType) => {
         }
         audioInfoNode={
           <AudioInfo
-            progressBarNode={<AppProgressBar />}
+            progressBarNode={
+              <AppProgressBar
+                played={seekPlayed}
+                timeTotal={timeTotal}
+                timeCurrent={timeCurrent}
+              />
+            }
             audioNode={
               <AppCurrentAudio songName={songName} artistName={artistName} />
             }
@@ -55,9 +66,9 @@ export const AudioContainer: FC<PropsType> = (props: PropsType) => {
               <AudioControl
                 volumeNode={
                   isMute ? (
-                    <AppButtonVolumeOff onVolumeOff={onVolumeOff} />
+                    <AppButtonVolumeOff onVolumeOff={onControlVolume} />
                   ) : (
-                    <AppButtonVolumeUp onVolumeUp={onVolumeUp} />
+                    <AppButtonVolumeUp onVolumeUp={onControlVolume} />
                   )
                 }
                 btnPrevNode={<AppButtonPrev onPrevAudio={onPrevSong} />}
@@ -80,6 +91,19 @@ export const AudioContainer: FC<PropsType> = (props: PropsType) => {
             }
           />
         }
+      />
+      <ReactPlayer
+        width="0"
+        height="0"
+        ref={playerRef}
+        url={currentAudioSong}
+        playing={isPlay}
+        muted={isMute}
+        onPlay={onPlay}
+        onPause={onPause}
+        onProgress={onProgress}
+        onDuration={onDuration}
+        onEnder={onEnder}
       />
     </AudioPage>
   );

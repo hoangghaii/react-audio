@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useCachedAsyncFunction, useToast } from 'src/features/common';
+import {
+  formatTime,
+  useCachedAsyncFunction,
+  useToast,
+} from 'src/features/common';
 import { getArtistSongs, getSong } from 'src/services/apis';
-import { SongListType, SongType, audios } from '..';
-import { Howl, Howler } from 'howler';
+import { audios, SongListType, SongType } from '..';
 
 export const useSong = (idArtist: string) => {
   const onShowToast = useToast();
@@ -18,24 +21,27 @@ export const useSong = (idArtist: string) => {
   const [currentIdSong, setCurrentIdSong] = useState<number>();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [currentAudioIndex, setCurrentAudioIndex] = useState<number>(0);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [currentAudioSong, setCurrentAudioSong] = useState(
     audios[currentAudioIndex].src,
   );
+
+  const [timeCurrent, setTimeCurrent] = useState<string>('0:00');
+  const [timeTotal, setTimeTotal] = useState<string>('0:00');
+  const [seekPlayed, setSeekPlayed] = useState<number>(0);
+
+  const playerRef = null;
 
   const [isPlay, setIsPlay] = useState<boolean>(false);
   const [isMute, setIsMute] = useState<boolean>(false);
   const [heart, setHeart] = useState(false);
 
-  // Setup the new Howl.
-  const sound = new Howl({
-    src: currentAudioSong,
-    html5: true,
-  });
-
   useEffect(() => {
     songList && setCurrentIdSong(songList[currentIndex].id);
   }, [songList, currentIndex]);
+
+  useEffect(() => {
+    setCurrentAudioSong(audios[currentAudioIndex].src);
+  }, [currentAudioIndex]);
 
   const currentSong = useCachedAsyncFunction<SongType>(
     (currentIdSong as unknown) as string,
@@ -43,9 +49,8 @@ export const useSong = (idArtist: string) => {
     setError,
   );
 
-  console.log('currentSong: ', currentSong);
-
   const onNextSong = () => {
+    if (isMute) setIsMute(false);
     if (currentIndex >= songList.length - 1) return;
     setCurrentIndex(currentIndex + 1);
     if (currentAudioIndex > audios.length) setCurrentAudioIndex(0);
@@ -53,6 +58,7 @@ export const useSong = (idArtist: string) => {
   };
 
   const onPrevSong = () => {
+    if (isMute) setIsMute(false);
     if (currentIndex === 0) return;
     setCurrentIndex(currentIndex - 1);
     if (currentAudioIndex === 0) setCurrentAudioIndex(audios.length);
@@ -60,27 +66,39 @@ export const useSong = (idArtist: string) => {
   };
 
   const onPause = () => {
-    sound.pause();
-    console.log('pause');
+    if (!isPlay) return;
     setIsPlay(false);
   };
 
   const onPlay = () => {
-    sound.play(currentAudioSong);
+    if (isPlay) return;
     setIsPlay(true);
   };
 
-  const onVolumeOff = () => {
-    Howler.volume(0);
-    setIsMute(true);
-  };
-
-  const onVolumeUp = () => {
-    setIsMute(false);
+  const onControlVolume = () => {
+    setIsMute(!isMute);
   };
 
   const onHeart = () => {
     setHeart(!heart);
+  };
+
+  const onProgress = (state: {
+    played: number;
+    playedSeconds: number;
+    loaded: number;
+    loadedSeconds: number;
+  }) => {
+    setSeekPlayed(state.played);
+    setTimeCurrent(formatTime(Math.round(state.playedSeconds)));
+  };
+
+  const onDuration = (duration: number) => {
+    setTimeTotal(formatTime(Math.round(duration)));
+  };
+
+  const onEnder = () => {
+    console.log('ender');
   };
 
   return {
@@ -88,12 +106,19 @@ export const useSong = (idArtist: string) => {
     isMute,
     heart,
     currentSong,
+    timeCurrent,
+    timeTotal,
+    currentAudioSong,
+    playerRef,
+    seekPlayed,
     onNextSong,
     onPrevSong,
     onPause,
     onPlay,
-    onVolumeOff,
-    onVolumeUp,
+    onControlVolume,
     onHeart,
+    onProgress,
+    onDuration,
+    onEnder,
   };
 };

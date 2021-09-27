@@ -25,9 +25,15 @@ export const TimeTotal = styled(TimeContainer)`
   right: 15px;
 `;
 
-export const Fill = styled.div`
+type FillPropsType = {
+  played: number;
+};
+
+export const Fill = styled.div<FillPropsType>`
   background-color: ${themeColor.secondary};
-  width: 35%;
+  width: ${(props) => props.played * 100}%;
   height: 0.3rem;
   border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.25s;
 `;
