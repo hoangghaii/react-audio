@@ -40,8 +40,6 @@ export const useSong = () => {
     if (currentAudioIndex >= songList.length - 1) setCurrentAudioIndex(0);
     else setCurrentAudioIndex(currentAudioIndex + 1);
   };
-  console.log('currentAudioIndex: ', currentAudioIndex);
-  console.log(currentAudioSong);
 
   const onPrevSong = () => {
     if (isMute) setIsMute(false);
