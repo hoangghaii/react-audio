@@ -23,7 +23,6 @@ export const AudioContainer: FC<PropsType> = (props: PropsType) => {
     isPlay,
     isMute,
     heart,
-    currentSong,
     timeCurrent,
     timeTotal,
     currentAudioSong,
@@ -37,12 +36,13 @@ export const AudioContainer: FC<PropsType> = (props: PropsType) => {
     onHeart,
     onProgress,
     onDuration,
-    onEnder,
-  } = useSong('29472');
+  } = useSong();
 
-  const songImage = currentSong?.song_art_image_url ?? '/sound-bars.svg';
-  const songName = currentSong?.full_title ?? 'Loading...';
-  const artistName = currentSong?.primary_artist.name ?? 'Loading...';
+  // if(!currentAudioSong) return <></>
+
+  const songImage = currentAudioSong?.imageUrl ?? '/sound-bars.svg';
+  const songName = currentAudioSong?.songName ?? 'Loading...';
+  const artistName = currentAudioSong?.artist ?? 'Loading...';
 
   return (
     <AudioPage>
@@ -96,14 +96,13 @@ export const AudioContainer: FC<PropsType> = (props: PropsType) => {
         width="0"
         height="0"
         ref={playerRef}
-        url={currentAudioSong}
+        url={currentAudioSong?.songUrl}
         playing={isPlay}
         muted={isMute}
         onPlay={onPlay}
         onPause={onPause}
         onProgress={onProgress}
         onDuration={onDuration}
-        onEnder={onEnder}
       />
     </AudioPage>
   );

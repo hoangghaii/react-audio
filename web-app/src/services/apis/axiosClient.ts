@@ -1,11 +1,9 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-  baseURL: 'https://genius.p.rapidapi.com/',
+  baseURL: 'http://localhost:5000/api',
   headers: {
     'Content-Type': 'application/json',
-    'x-rapidapi-host': 'genius.p.rapidapi.com',
-    'x-rapidapi-key': '9532c743e6msh52ca14f9c5e774ap19ed2cjsn0c1648da1632',
   },
 });
 

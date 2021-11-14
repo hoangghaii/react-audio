@@ -1,19 +1,19 @@
 import axiosClient from 'src/services/apis/axiosClient';
 
-export const getArtistSongs = async (artistId: number) => {
-  const url = `artists/${artistId}/songs`;
+export const getArtistSongs = async () => {
+  const url = '/audios';
 
   return await axiosClient
     .get(url)
-    .then((response) => response.data.response.songs)
+    .then((response) => response.data.audios)
     .catch((error) => error);
 };
 
 export const getSong = async (songId: number) => {
-  const url = `songs/${songId}`;
+  const url = `audios/${songId}`;
 
   return await axiosClient
     .get(url)
-    .then((response) => response.data.response.song)
+    .then((response) => response.data.audio)
     .catch((error) => error);
 };

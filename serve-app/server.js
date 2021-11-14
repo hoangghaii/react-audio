@@ -3,6 +3,10 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const multer = require('multer');
+const { memoryStorage } = require('multer');
+const storage = memoryStorage();
+const upload = multer({ storage });
 
 const app = express();
 
@@ -10,16 +14,19 @@ const app = express();
 const corsOptions = { origin: '*', optionsSuccessStatus: 200 };
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(upload.any());
 
 //Connect to mongooseDB
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 };
-const connectDB = async () => {
+const connectDB = () => {
   try {
-    await mongoose.connect(process.env.DB, options);
+    mongoose.connect(
+      `mongodb+srv://${process.env.MGDB_USERNAME}:${process.env.MGDB_PASSWORD}@cluster0.9zxnv.mongodb.net/Cluster0?retryWrites=true&w=majority`,
+      options,
+    );
     console.log('MongoDB connected');
   } catch (error) {
     console.log(error.message);
@@ -27,8 +34,6 @@ const connectDB = async () => {
   }
 };
 connectDB();
-
-app.get('/', (req, res) => res.send('Wellcome to Audio Server'));
 
 // routes
 require('./src/routes/audios.routes')(app);

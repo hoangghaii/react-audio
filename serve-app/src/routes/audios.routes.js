@@ -1,21 +1,20 @@
 const controller = require('../controllers/audios.controllers');
-const upload = require('../middleware/upload');
 
 module.exports = function (app) {
   // @route GET api/audios
   // @desc Get audios
   // @access Public
-  // app.get("/api/audios", controller.getaudios);
+  app.get('/api/audios', controller.getAudios);
 
   // @route GET api/audios
   // @desc Get detail audio
   // @access Public
-  app.get('/api/audios/:fileName', controller.getDetailAudio);
+  app.get('/api/audios/:id', controller.getDetailAudio);
 
   // @route POST api/audios
   // @desc Create audio
   // @access Public
-  app.post('/api/audios', upload.single('file'), controller.createAudio);
+  app.post('/api/audios', controller.createAudio);
 
   // @route PUT api/audios/:id
   // @desc Update audio

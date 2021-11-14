@@ -4,26 +4,22 @@ import {
   useCachedAsyncFunction,
   useToast,
 } from 'src/features/common';
-import { getArtistSongs, getSong } from 'src/services/apis';
-import { audios, SongListType, SongType } from '..';
+import { getArtistSongs } from 'src/services/apis';
+import { SongType } from '..';
 
-export const useSong = (idArtist: string) => {
+export const useSong = () => {
   const onShowToast = useToast();
   const [error, setError] = useState<Error | undefined>(undefined);
-  const songList = useCachedAsyncFunction<SongListType[]>(
-    idArtist,
+  const songList = useCachedAsyncFunction<SongType[]>(
+    'song',
     getArtistSongs,
     setError,
   );
 
   if (error) onShowToast('error', error);
 
-  const [currentIdSong, setCurrentIdSong] = useState<number>();
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [currentAudioIndex, setCurrentAudioIndex] = useState<number>(0);
-  const [currentAudioSong, setCurrentAudioSong] = useState(
-    audios[currentAudioIndex].src,
-  );
+  const [currentAudioSong, setCurrentAudioSong] = useState<SongType>();
 
   const [timeCurrent, setTimeCurrent] = useState<string>('0:00');
   const [timeTotal, setTimeTotal] = useState<string>('0:00');
@@ -36,32 +32,22 @@ export const useSong = (idArtist: string) => {
   const [heart, setHeart] = useState(false);
 
   useEffect(() => {
-    songList && setCurrentIdSong(songList[currentIndex].id);
-  }, [songList, currentIndex]);
-
-  useEffect(() => {
-    setCurrentAudioSong(audios[currentAudioIndex].src);
-  }, [currentAudioIndex]);
-
-  const currentSong = useCachedAsyncFunction<SongType>(
-    (currentIdSong as unknown) as string,
-    getSong,
-    setError,
-  );
+    songList && setCurrentAudioSong(songList[currentAudioIndex]);
+  }, [songList, currentAudioIndex]);
 
   const onNextSong = () => {
     if (isMute) setIsMute(false);
-    if (currentIndex >= songList.length - 1) return;
-    setCurrentIndex(currentIndex + 1);
-    if (currentAudioIndex > audios.length) setCurrentAudioIndex(0);
+    if (currentAudioIndex >= songList.length - 1) return;
+    setCurrentAudioIndex(currentAudioIndex + 1);
+    if (currentAudioIndex > songList.length) setCurrentAudioIndex(0);
     setCurrentAudioIndex(currentAudioIndex + 1);
   };
 
   const onPrevSong = () => {
     if (isMute) setIsMute(false);
-    if (currentIndex === 0) return;
-    setCurrentIndex(currentIndex - 1);
-    if (currentAudioIndex === 0) setCurrentAudioIndex(audios.length);
+    if (currentAudioIndex === 0) return;
+    setCurrentAudioIndex(currentAudioIndex - 1);
+    if (currentAudioIndex === 0) setCurrentAudioIndex(songList.length);
     setCurrentAudioIndex(currentAudioIndex - 1);
   };
 
@@ -97,18 +83,13 @@ export const useSong = (idArtist: string) => {
     setTimeTotal(formatTime(Math.round(duration)));
   };
 
-  const onEnder = () => {
-    console.log('ender');
-  };
-
   return {
     isPlay,
     isMute,
     heart,
-    currentSong,
+    currentAudioSong,
     timeCurrent,
     timeTotal,
-    currentAudioSong,
     playerRef,
     seekPlayed,
     onNextSong,
@@ -119,6 +100,5 @@ export const useSong = (idArtist: string) => {
     onHeart,
     onProgress,
     onDuration,
-    onEnder,
   };
 };

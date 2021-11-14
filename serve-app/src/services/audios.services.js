@@ -1,22 +1,13 @@
-const Audios = require('../models/Audios.models');
-const Grid = require('gridfs-stream');
-const mongoose = require('mongoose');
+const Audio = require('../models/Audios.models');
 
-let gfs;
-
-const conn = mongoose.connection;
-conn.once('open', function () {
-  gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection('photos');
-});
-
-const createAudio = async (title, artist, image_url, heart, media) => {
+const createAudio = async (songName, songUrl, artist, imageUrl, heart) => {
   try {
-    const newAudio = new Audios({
-      title,
+    const newAudio = new Audio({
+      songName,
+      songUrl,
       artist,
-      image_url,
-      heart,
+      imageUrl,
+      heart: heart || false,
     });
     await newAudio.save();
     return newAudio;
@@ -24,13 +15,19 @@ const createAudio = async (title, artist, image_url, heart, media) => {
     throw error;
   }
 };
-const getAudios = () => {};
-
-const getDetailAudio = async (fileName) => {
+const getAudios = async () => {
   try {
-    const file = await gfs.files.findOne({ filename: fileName });
-    const readStream = gfs.createReadStream(file.filename);
-    readStream.pipe(res);
+    const audios = await Audio.find();
+    return audios;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getDetailAudio = async (id) => {
+  try {
+    const audio = await Audio.findById(id);
+    return audio;
   } catch (error) {
     throw error;
   }
