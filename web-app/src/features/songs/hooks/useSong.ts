@@ -37,18 +37,16 @@ export const useSong = () => {
 
   const onNextSong = () => {
     if (isMute) setIsMute(false);
-    if (currentAudioIndex >= songList.length - 1) return;
-    setCurrentAudioIndex(currentAudioIndex + 1);
-    if (currentAudioIndex > songList.length) setCurrentAudioIndex(0);
-    setCurrentAudioIndex(currentAudioIndex + 1);
+    if (currentAudioIndex >= songList.length - 1) setCurrentAudioIndex(0);
+    else setCurrentAudioIndex(currentAudioIndex + 1);
   };
+  console.log('currentAudioIndex: ', currentAudioIndex);
+  console.log(currentAudioSong);
 
   const onPrevSong = () => {
     if (isMute) setIsMute(false);
-    if (currentAudioIndex === 0) return;
-    setCurrentAudioIndex(currentAudioIndex - 1);
-    if (currentAudioIndex === 0) setCurrentAudioIndex(songList.length);
-    setCurrentAudioIndex(currentAudioIndex - 1);
+    if (currentAudioIndex === 0) setCurrentAudioIndex(songList.length - 1);
+    else setCurrentAudioIndex(currentAudioIndex - 1);
   };
 
   const onPause = () => {
