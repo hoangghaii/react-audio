@@ -33,11 +33,34 @@ const getDetailAudio = async (id) => {
   }
 };
 
-const updateAudio = () => {};
-
-const deleteAudio = async (fileName) => {
+const updateAudio = async (id, songName, songUrl, artist, imageUrl, heart) => {
   try {
-    await gfs.files.deleteOne({ filename: fileName });
+    const currentAudio = await Audio.findById(id);
+    console.log(currentAudio);
+
+    let updatedAudio = {
+      songName: songName || currentAudio.songName,
+      songUrl: songUrl || currentAudio.songUrl,
+      artist: artist || currentAudio.artist,
+      imageUrl: imageUrl || currentAudio.imageUrl,
+      heart: heart || currentAudio.heart,
+    };
+
+    updatedAudio = await Audio.findByIdAndUpdate(id, updatedAudio, {
+      new: true,
+    });
+    if (!updatedAudio) return;
+    return updatedAudio;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const deleteAudio = async (id) => {
+  try {
+    const deletedAudio = await Audio.findByIdAndDelete(id);
+    if (!deletedAudio) return;
+    return deletedAudio;
   } catch (error) {
     throw error;
   }

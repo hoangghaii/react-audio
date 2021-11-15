@@ -19,10 +19,10 @@ module.exports = function (app) {
   // @route PUT api/audios/:id
   // @desc Update audio
   // @access Public
-  // app.put("/api/audios/:id", controller.updatePost);
+  app.post('/api/audios/:id', controller.updatePost);
 
   // @route DELETE api/audios/:id
   // @desc Delete audio
   // @access Public
-  app.delete('/api/audios/:fileName', controller.deleteAudio);
+  app.delete('/api/audios/:id', controller.deleteAudio);
 };

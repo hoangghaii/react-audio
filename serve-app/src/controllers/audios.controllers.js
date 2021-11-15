@@ -49,17 +49,53 @@ exports.createAudio = async (req, res) => {
   }
 };
 
-exports.deleteAudio = async (req, res) => {
-  const fileName = req.params.fileName;
+exports.updatePost = async (req, res) => {
+  const { id } = req.params;
+  const { songName, artist, imageUrl, heart } = req.body;
+  const file = req.files[0];
+  let songUrl;
 
-  if (!fileName)
-    return res
-      .status(400)
-      .json({ success: false, message: 'File name is required' });
+  if (file) {
+    const fileName = req.files[0].originalname.split('.')[0];
+    const fileBuffer = req.files[0].buffer;
+    songUrl = await uploadAudio(fileName, fileBuffer);
+  }
 
   try {
-    await deleteAudio(fileName);
-    res.status(200).json({ success: true, message: 'Create successfully!' });
+    const updatedAudio = await updateAudio(
+      id,
+      songName,
+      songUrl,
+      artist,
+      imageUrl,
+      heart,
+    );
+    if (!updatedAudio)
+      return res
+        .status(401)
+        .json({ success: false, message: 'Audio not found!' });
+
+    res.status(200).json({
+      success: true,
+      message: 'Update successfully!',
+      audio: updatedAudio,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+};
+
+exports.deleteAudio = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedAudio = await deleteAudio(id);
+    if (!deletedAudio)
+      return res
+        .status(401)
+        .json({ success: false, message: 'Audio not found!' });
+    res.status(200).json({ success: true, message: 'Delete successfully!' });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Internal server error' });
   }
