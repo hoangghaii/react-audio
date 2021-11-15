@@ -36,7 +36,6 @@ const getDetailAudio = async (id) => {
 const updateAudio = async (id, songName, songUrl, artist, imageUrl, heart) => {
   try {
     const currentAudio = await Audio.findById(id);
-    console.log(currentAudio);
 
     let updatedAudio = {
       songName: songName || currentAudio.songName,

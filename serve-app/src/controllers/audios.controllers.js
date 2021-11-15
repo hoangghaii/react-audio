@@ -81,7 +81,6 @@ exports.updatePost = async (req, res) => {
       audio: updatedAudio,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
